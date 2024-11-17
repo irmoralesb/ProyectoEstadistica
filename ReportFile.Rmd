@@ -13,6 +13,47 @@ knitr::opts_chunk$set(echo = TRUE)
 
 En esta etapa se realizara el analisis descriptivo de los datos
 
+## Exploracion de datos
+
+Al hacer una revision inicial de los datos se identifica que hay dos categorias que no caen en el estandar de los restos de los datos.
+
+* 100 años y más:   18 295
+* No especificado:   273 386
+
+### Caso 100 años y mas
+
+Para este caso vamos a tomar el valor como si el valor fuera solo para edades de 100 años
+
+Cargando datos de data\original-data.csv.csv
+
+```{r}
+library(readr)
+original_data <- read.csv("data/original-data.csv", header=TRUE, stringsAsFactors=FALSE, fileEncoding = "ISO-8859-1")
+```
+
+Ahora actualizamos la categoria de "100 años y más" a "100 años"
+
+```{r}
+original_data$Total[original_data$Total == "100 años y más"] <- "100 años"
+write.csv(original_data,"data/data.csv",row.names = FALSE, fileEncoding = "ISO-8859-1")
+```
+
+### Caso No especificado
+Para este caso podemos tomar varios caminos, ya que no tenemos una forma certera de identificar a que edad pertenecen
+
+1) Ignorar el dato
+2) Agregar los datos a la Edad que tiene mas valores, ya que es mas probable que la mayoria de los datos pertenezcan a esta cagtegoria
+
+Para evitar influenciar los datos, y debido a que representan muy poco porcentaje de la muestra, se eliminaran
+
+```{r}
+indice_de_no_especificado = original_data$Total == "No especificado"
+original_data <- original_data[!indice_de_no_especificado,]
+write.csv(original_data,"data/data.csv",row.names = FALSE, fileEncoding = "ISO-8859-1")
+```
+
+Ya con los datos limpios, procedemos a hacer los calculos.
+
 ## 1) Agrupacion de los datos
 
 ### 1.1 Considerar el conjunto de los datos.
@@ -52,6 +93,10 @@ head(data)
 summary(data)
 ```
 
+
+
+
+
 ### 1.2) Tabla de Frecuencias
 
 Se agrupan los datos tomando en cuenta las edades para cada etapa del desarrollo humano tomando encuenta cada etapa del desarrollo humano, los cuales sirven para crear los intervalos y obtener las frecuencias.
@@ -61,10 +106,6 @@ Se agrupan los datos tomando en cuenta las edades para cada etapa del desarrollo
 * Juventud - 19 a 25
 * Adultez - 26 a 60
 * Vejez - 61 a 100
-
-
-**IMPORTANTE: HAY VARIAS PERSONAS FUERA DE ESTOS RANGOS EN LOS DATOS**
-!!!! HACER EXPLORACION DE DATOS Y AGREGAR LOS DATOS PERDIDOS EN OTRA PARTE O REMOVERLOS PERO JUSTIFICANDO!!!!!
 
 ```{r}
 data$RangoEdad <- cut(data$Edad,
@@ -114,7 +155,7 @@ frecuencia_acumulada <-  cumsum(tabla_agrupada$NumDePersonas)
 grupo_especifico <- "Adultez (26-60)"
 indice <- which(tabla_agrupada$RangoEdad == grupo_especifico)
 suma_acumulada <- ifelse(indice > 1, frecuencia_acumulada[indice - 1], 0)
-Fi_Minus1 <- suma_acumulada #55163085
+Fi_Minus1 <- suma_acumulada
 
 fi <- tabla_agrupada$NumDePersonas[tabla_agrupada$RangoEdad == grupo_especifico]
 
@@ -137,8 +178,32 @@ fi_Mas1 <- tabla_agrupada$NumDePersonas[indice_grupo_posterior]
 moda <- Li + ((fi - fi_Menos1)/((fi - fi_Menos1) + (fi - fi_Mas1))) * ai
 print(moda)
 ```
+Nota: Como dato interesante la mediana es menor que la Moda y la Media.
+
 ### 2.2) Obtener las medidas de dispersión: desviación estándar y varianza
 
 * Toda vez que ya se tiene el software se pueden obtener las medidas de dos formas:
   * Mediante el software elegido.
   * Utilizando las fórmulas expresadas en las sesiones y/o en los materiales del curso.
+
+
+Teniendo:
+* Media: 33.34
+* Total de personas: 125,740,638
+
+
+Varianza
+```{r}
+diferencias = marcasDeClase - media
+elevando_al_quadrado = diferencias^2
+multiplicando_por_frecuencia <- elevando_al_quadrado * tabla_agrupada$NumDePersonas
+sumando_todo <- sum(multiplicando_por_frecuencia)
+varianza = sumando_todo / total_numero_personas
+print(varianza)
+```
+Desviacion Estandar
+```{r}
+desviacion_standard <- sqrt(varianza)
+print(desviacion_standard)
+```
+

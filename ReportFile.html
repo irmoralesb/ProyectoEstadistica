@@ -359,6 +359,43 @@ display: none;
 <h1>Proyecto Integrador Etapa 1</h1>
 <p><a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a></p>
 <p>En esta etapa se realizara el analisis descriptivo de los datos</p>
+<div id="exploracion-de-datos" class="section level2">
+<h2>Exploracion de datos</h2>
+<p>Al hacer una revision inicial de los datos se identifica que hay dos
+categorias que no caen en el estandar de los restos de los datos.</p>
+<ul>
+<li>100 años y más: 18 295</li>
+<li>No especificado: 273 386</li>
+</ul>
+<div id="caso-100-años-y-mas" class="section level3">
+<h3>Caso 100 años y mas</h3>
+<p>Para este caso vamos a tomar el valor como si el valor fuera solo
+para edades de 100 años</p>
+<p>Cargando datos de data-data.csv.csv</p>
+<pre class="r"><code>library(readr)</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.4.2</code></pre>
+<pre class="r"><code>original_data &lt;- read.csv(&quot;data/original-data.csv&quot;, header=TRUE, stringsAsFactors=FALSE, fileEncoding = &quot;ISO-8859-1&quot;)</code></pre>
+<p>Ahora actualizamos la categoria de “100 años y más” a “100 años”</p>
+<pre class="r"><code>original_data$Total[original_data$Total == &quot;100 años y más&quot;] &lt;- &quot;100 años&quot;
+write.csv(original_data,&quot;data/data.csv&quot;,row.names = FALSE, fileEncoding = &quot;ISO-8859-1&quot;)</code></pre>
+</div>
+<div id="caso-no-especificado" class="section level3">
+<h3>Caso No especificado</h3>
+<p>Para este caso podemos tomar varios caminos, ya que no tenemos una
+forma certera de identificar a que edad pertenecen</p>
+<ol style="list-style-type: decimal">
+<li>Ignorar el dato</li>
+<li>Agregar los datos a la Edad que tiene mas valores, ya que es mas
+probable que la mayoria de los datos pertenezcan a esta cagtegoria</li>
+</ol>
+<p>Para evitar influenciar los datos, y debido a que representan muy
+poco porcentaje de la muestra, se eliminaran</p>
+<pre class="r"><code>indice_de_no_especificado = original_data$Total == &quot;No especificado&quot;
+original_data &lt;- original_data[!indice_de_no_especificado,]
+write.csv(original_data,&quot;data/data.csv&quot;,row.names = FALSE, fileEncoding = &quot;ISO-8859-1&quot;)</code></pre>
+<p>Ya con los datos limpios, procedemos a hacer los calculos.</p>
+</div>
+</div>
 <div id="agrupacion-de-los-datos" class="section level2">
 <h2>1) Agrupacion de los datos</h2>
 <div id="considerar-el-conjunto-de-los-datos." class="section level3">
@@ -367,9 +404,8 @@ display: none;
 por el Instituto Nacional de Estadística y Geografía (INEGI) para
 obtener la información útil:</p>
 <p>Cargando datos de data.csv</p>
-<pre class="r"><code>library(readr)</code></pre>
-<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.4.2</code></pre>
-<pre class="r"><code>#guess_encoding(&quot;data/data.csv&quot;)
+<pre class="r"><code>library(readr)
+#guess_encoding(&quot;data/data.csv&quot;)
 data &lt;- read.csv(&quot;data/data.csv&quot;, header=TRUE, stringsAsFactors=FALSE, fileEncoding = &quot;ISO-8859-1&quot;)</code></pre>
 <p>Comprobando que los datos estan cargados correctamente</p>
 <pre class="r"><code>head(data)</code></pre>
@@ -382,7 +418,7 @@ data &lt;- read.csv(&quot;data/data.csv&quot;, header=TRUE, stringsAsFactors=FAL
 ## 6 05 años  2 178 901</code></pre>
 <pre class="r"><code>summary(data)</code></pre>
 <pre><code>##     Total             Personas        
-##  Length:100         Length:100        
+##  Length:101         Length:101        
 ##  Class :character   Class :character  
 ##  Mode  :character   Mode  :character</code></pre>
 <p>Los datos de la columna “Edad” y “Personas” estan detectados como
@@ -402,13 +438,13 @@ write.csv(data,&quot;updated_file.csv&quot;,row.names = FALSE)</code></pre>
 ## 5 04 años  2 174 905    4       2174905
 ## 6 05 años  2 178 901    5       2178901</code></pre>
 <pre class="r"><code>summary(data)</code></pre>
-<pre><code>##     Total             Personas              Edad       NumDePersonas    
-##  Length:100         Length:100         Min.   : 0.00   Min.   :  10596  
-##  Class :character   Class :character   1st Qu.:24.75   1st Qu.: 446241  
-##  Mode  :character   Mode  :character   Median :49.50   Median :1437948  
-##                                        Mean   :49.50   Mean   :1257223  
-##                                        3rd Qu.:74.25   3rd Qu.:2013185  
-##                                        Max.   :99.00   Max.   :2366318</code></pre>
+<pre><code>##     Total             Personas              Edad     NumDePersonas    
+##  Length:101         Length:101         Min.   :  0   Min.   :  10596  
+##  Class :character   Class :character   1st Qu.: 25   1st Qu.: 413507  
+##  Mode  :character   Mode  :character   Median : 50   Median :1437771  
+##                                        Mean   : 50   Mean   :1244957  
+##                                        3rd Qu.: 75   3rd Qu.:2006341  
+##                                        Max.   :100   Max.   :2366318</code></pre>
 </div>
 <div id="tabla-de-frecuencias" class="section level3">
 <h3>1.2) Tabla de Frecuencias</h3>
@@ -422,9 +458,6 @@ cuales sirven para crear los intervalos y obtener las frecuencias.</p>
 <li>Adultez - 26 a 60</li>
 <li>Vejez - 61 a 100</li>
 </ul>
-<p><strong>IMPORTANTE: HAY VARIAS PERSONAS FUERA DE ESTOS RANGOS EN LOS
-DATOS</strong> !!!! HACER EXPLORACION DE DATOS Y AGREGAR LOS DATOS
-PERDIDOS EN OTRA PARTE O REMOVERLOS PERO JUSTIFICANDO!!!!!</p>
 <pre class="r"><code>data$RangoEdad &lt;- cut(data$Edad,
                      breaks = c(-1, 12, 18, 25, 60, 100),
                      labels = c(&quot;Niñes (0-12)&quot;, &quot;Adolescencia (13-18)&quot;, &quot;Juventud (19-25)&quot;, &quot;Adultez (26-60)&quot;, &quot;Vejez (61-100)&quot;),
@@ -436,7 +469,7 @@ print(tabla_agrupada)</code></pre>
 ## 2 Adolescencia (13-18)      13093583
 ## 3     Juventud (19-25)      14607452
 ## 4      Adultez (26-60)      56768107
-## 5       Vejez (61-100)      13791151</code></pre>
+## 5       Vejez (61-100)      13809446</code></pre>
 </div>
 </div>
 <div id="realizar-la-descripcion-de-los-datos-agrupados" class="section level2">
@@ -463,14 +496,14 @@ print(marcasDeClase)</code></pre>
 <pre class="r"><code>total_numero_personas = sum(tabla_agrupada$NumDePersonas)
 media &lt;- sum(tabla_agrupada$NumDePersonas * marcasDeClase)/ total_numero_personas
 print(media)</code></pre>
-<pre><code>## [1] 33.33674</code></pre>
+<pre><code>## [1] 33.34353</code></pre>
 <p>Mediana</p>
 <pre class="r"><code># Encontrar T
 T &lt;- total_numero_personas / 2
 #print(T)
 # El valor de T cae en el grupo Adultes (26-60)
 Li &lt;- 26
-
+Ls &lt;- 60
 frecuencia_acumulada &lt;-  cumsum(tabla_agrupada$NumDePersonas)
 grupo_especifico &lt;- &quot;Adultez (26-60)&quot;
 indice &lt;- which(tabla_agrupada$RangoEdad == grupo_especifico)
@@ -479,12 +512,51 @@ Fi_Minus1 &lt;- suma_acumulada
 
 fi &lt;- tabla_agrupada$NumDePersonas[tabla_agrupada$RangoEdad == grupo_especifico]
 
-ai &lt;- 60 - 26
+ai &lt;- Ls - Li
 
 mediana &lt;- Li + ((T-Fi_Minus1)/fi) * ai
 
 print(mediana)</code></pre>
-<pre><code>## [1] 30.6106</code></pre>
+<pre><code>## [1] 30.61608</code></pre>
+<p>Moda</p>
+<pre class="r"><code># La moda tambien cae en el grupo de Adultes (26-60)
+indice_grupo_anterior = indice - 1
+indice_grupo_posterior = indice + 1
+
+fi_Menos1 &lt;- tabla_agrupada$NumDePersonas[indice_grupo_anterior]
+fi_Mas1 &lt;- tabla_agrupada$NumDePersonas[indice_grupo_posterior]
+
+moda &lt;- Li + ((fi - fi_Menos1)/((fi - fi_Menos1) + (fi - fi_Mas1))) * ai
+print(moda)</code></pre>
+<pre><code>## [1] 42.84062</code></pre>
+<p>Nota: Como dato interesante la mediana es menor que la Moda y la
+Media.</p>
+</div>
+<div id="obtener-las-medidas-de-dispersión-desviación-estándar-y-varianza" class="section level3">
+<h3>2.2) Obtener las medidas de dispersión: desviación estándar y
+varianza</h3>
+<ul>
+<li>Toda vez que ya se tiene el software se pueden obtener las medidas
+de dos formas:
+<ul>
+<li>Mediante el software elegido.</li>
+<li>Utilizando las fórmulas expresadas en las sesiones y/o en los
+materiales del curso.</li>
+</ul></li>
+</ul>
+<p>Teniendo: * Media: 33.34 * Total de personas: 125,740,638</p>
+<p>Varianza</p>
+<pre class="r"><code>diferencias = marcasDeClase - media
+elevando_al_quadrado = diferencias^2
+multiplicando_por_frecuencia &lt;- elevando_al_quadrado * tabla_agrupada$NumDePersonas
+sumando_todo &lt;- sum(multiplicando_por_frecuencia)
+varianza = sumando_todo / total_numero_personas
+print(varianza)</code></pre>
+<pre><code>## [1] 491.5478</code></pre>
+<p>Desviacion Standard</p>
+<pre class="r"><code>desviacion_standard &lt;- sqrt(varianza)
+print(desviacion_standard)</code></pre>
+<pre><code>## [1] 22.17088</code></pre>
 </div>
 </div>
 </div>

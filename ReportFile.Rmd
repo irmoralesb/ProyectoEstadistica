@@ -1,0 +1,144 @@
+---
+title: "Proyecto Integrador"
+output: html_document
+date: "2024-11-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Proyecto Integrador Etapa 1
+<http://rmarkdown.rstudio.com>
+
+En esta etapa se realizara el analisis descriptivo de los datos
+
+## 1) Agrupacion de los datos
+
+### 1.1 Considerar el conjunto de los datos.
+
+
+Considerar el conjunto de datos en Excel de una encuesta realizada por el Instituto Nacional de Estadística y Geografía (INEGI) para obtener la información útil:
+
+
+Cargando datos de data\data.csv
+
+```{r}
+library(readr)
+#guess_encoding("data/data.csv")
+data <- read.csv("data/data.csv", header=TRUE, stringsAsFactors=FALSE, fileEncoding = "ISO-8859-1")
+
+```
+
+Comprobando que los datos estan cargados correctamente
+
+```{r}
+head(data)
+summary(data)
+```
+
+Los datos de la columna "Edad" y "Personas" estan detectados como texto, pero los necesitamos como numeros.Por lo que generaremos nuevas columnas de tipo numerico, "Edad", "NumeroDePersonas" respectivamente.
+
+```{r}
+data$Edad <- as.numeric(gsub(" años", "", data$Total))
+data$NumDePersonas <- as.numeric(gsub(" ","",data$Personas))
+write.csv(data,"updated_file.csv",row.names = FALSE)
+```
+
+Validando que la nueva columna sea de tipo numerico
+
+```{r}
+head(data)
+summary(data)
+```
+
+### 1.2) Tabla de Frecuencias
+
+Se agrupan los datos tomando en cuenta las edades para cada etapa del desarrollo humano tomando encuenta cada etapa del desarrollo humano, los cuales sirven para crear los intervalos y obtener las frecuencias.
+
+* Niñes - 0 a 12
+* Adolescencia - 13 a 18
+* Juventud - 19 a 25
+* Adultez - 26 a 60
+* Vejez - 61 a 100
+
+
+**IMPORTANTE: HAY VARIAS PERSONAS FUERA DE ESTOS RANGOS EN LOS DATOS**
+!!!! HACER EXPLORACION DE DATOS Y AGREGAR LOS DATOS PERDIDOS EN OTRA PARTE O REMOVERLOS PERO JUSTIFICANDO!!!!!
+
+```{r}
+data$RangoEdad <- cut(data$Edad,
+                     breaks = c(-1, 12, 18, 25, 60, 100),
+                     labels = c("Niñes (0-12)", "Adolescencia (13-18)", "Juventud (19-25)", "Adultez (26-60)", "Vejez (61-100)"),
+                     right = TRUE)
+
+```
+
+```{r}
+tabla_agrupada <- aggregate(NumDePersonas ~ RangoEdad, data = data, sum)
+print(tabla_agrupada)
+
+```
+
+## 2) Realizar la descripcion de los datos agrupados
+
+### 2.1) Obtener las medidas de tendencia central
+
+Obtener las medidas de tendencia central: media, moda y mediana
+
+* Toda vez que ya se tiene el software se pueden obtener las medidas de dos formas:
+  * Mediante el software elegido.
+  * Utilizando las fórmulas expresadas en las sesiones y/o en los materiales del curso.
+
+Media
+```{r}
+# Obtener la marca de clase
+intervalos = c(0, 12, 18, 25, 60, 100)
+
+marcasDeClase <- (head(intervalos, -1) + tail(intervalos, -1)) / 2
+print(marcasDeClase)
+
+total_numero_personas = sum(tabla_agrupada$NumDePersonas)
+media <- sum(tabla_agrupada$NumDePersonas * marcasDeClase)/ total_numero_personas
+print(media)
+```
+Mediana
+```{r}
+# Encontrar T
+T <- total_numero_personas / 2
+#print(T)
+# El valor de T cae en el grupo Adultes (26-60)
+Li <- 26
+Ls <- 60
+frecuencia_acumulada <-  cumsum(tabla_agrupada$NumDePersonas)
+grupo_especifico <- "Adultez (26-60)"
+indice <- which(tabla_agrupada$RangoEdad == grupo_especifico)
+suma_acumulada <- ifelse(indice > 1, frecuencia_acumulada[indice - 1], 0)
+Fi_Minus1 <- suma_acumulada #55163085
+
+fi <- tabla_agrupada$NumDePersonas[tabla_agrupada$RangoEdad == grupo_especifico]
+
+ai <- Ls - Li
+
+mediana <- Li + ((T-Fi_Minus1)/fi) * ai
+
+print(mediana)
+```
+
+Moda
+```{r}
+# La moda tambien cae en el grupo de Adultes (26-60)
+indice_grupo_anterior = indice - 1
+indice_grupo_posterior = indice + 1
+
+fi_Menos1 <- tabla_agrupada$NumDePersonas[indice_grupo_anterior]
+fi_Mas1 <- tabla_agrupada$NumDePersonas[indice_grupo_posterior]
+
+moda <- Li + ((fi - fi_Menos1)/((fi - fi_Menos1) + (fi - fi_Mas1))) * ai
+print(moda)
+```
+### 2.2) Obtener las medidas de dispersión: desviación estándar y varianza
+
+* Toda vez que ya se tiene el software se pueden obtener las medidas de dos formas:
+  * Mediante el software elegido.
+  * Utilizando las fórmulas expresadas en las sesiones y/o en los materiales del curso.

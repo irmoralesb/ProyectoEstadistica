@@ -206,4 +206,39 @@ Desviacion Estandar
 desviacion_standard <- sqrt(varianza)
 print(desviacion_standard)
 ```
+### 2.3) Obtener el histograma de frecuencias, ojiva y polígono de frecuencias.
 
+* Utilizar el software seleccionado para obtener:
+  * Polígono de frecuencias
+  * Ojiva
+  * Histograma
+
+
+Poligono de frecuencias
+```{r}
+# Evitar notación científica
+options(scipen = 999)
+plot(marcasDeClase, tabla_agrupada$NumDePersonas,type = "b", pch=16, col="blue",xlab = "Marca de clase", ylab = "Frecuencia", main = "Poligono de frecuencias")
+```
+
+Ojiva
+```{r}
+tabla_agrupada$NumDePersonasAcumuladas <- cumsum(tabla_agrupada$NumDePersonas)
+
+plot(marcasDeClase, tabla_agrupada$NumDePersonasAcumuladas, type = "b", col = "blue", pch=16, lwd = 2 , xlab = "Intervalos", ylab = "Frecuencia acumulada", main = "Ojiva")
+
+```
+
+
+
+Histograma
+```{r}
+plot(marcasDeClase, tabla_agrupada$NumDePersonas, type = "h", lwd=45, lend=1, col= "blue", xlab = "Intervalos", ylab="Frecuencia", main = "Histograma")
+```
+
+
+### 2.4) Obtener probabilidades de valores con respecto a alguna distribución de probabilidad
+
+* Elegir dados los datos, una distribución de probabilidad, preferentemente la normal para trabajar.
+* Elegir para cada etapa de la vida (niñez, adolescencia, juventud, adultez, vejez) un valor ( por ejemplo, en adultez la edad del equipo, en niñez la edad de su hijo, etc.)
+  * Utilizar las unidades Z para calcular dada la media y la varianza, la probabilidad de que la edad media de la etapa sea menor al valor extremo de la etapa dado esto es P(edad media<=Valor extremo de la etapa). Por ejemplo el valor medio de la niñez sea de 10,000 y el valor total de la etapa de niñez sea 23000.

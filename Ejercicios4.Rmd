@@ -12,9 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Distribucion de Probabilidad Binomial
 
-1.- Un laboratorio afirma que una droga causa efectos secundarios en una proporción de 3 de cada 100
+**1.- Un laboratorio afirma que una droga causa efectos secundarios en una proporción de 3 de cada 100
 pacientes. Para contrastar esta afirmación, otro laboratorio elige al azar a 5 pacientes a los que aplica
-la droga. ¿Cuál es la probabilidad de los siguientes sucesos?
+la droga. ¿Cuál es la probabilidad de los siguientes sucesos?**
 
 a) Ningún paciente tenga efectos secundarios.
 
@@ -82,4 +82,64 @@ desviacion <- sqrt(n * p * (1 - p))
 print(desviacion)
 ```
 
+## Distribución de Probabilidad de Poisson
+
+**2.- La contestadora automática de UVM recibe alrededor de seis llamadas telefónicas entre las 8 de la
+mañana y las 10 de la mañana. ¿Cuál es la probabilidad de que Leah reciba más de una llamada en los
+próximos 15 minutos? Sugerencia: Calcular la media lambda en términos de 8 intervalos de 15 minutos
+la hora.**
+
+Datos:
+Llamadas : 6
+Horas: 8 - 10AM
+Tomando Lapso de tiempo de 15 min: 0.75 llamadas
+Lambda = 0.75
+
+```{r}
+lambda_value = 0.75
+e = exp(1)
+k = 1
+
+print(ppois(k,lambda = lambda_value,lower.tail = FALSE))
+
+lambda_value_exp_k = lambda_value^k
+e = exp(1)
+e_exp_menos_lambda = e^(-lambda_value)
+factorial_k = factorial(k)
+
+probability_k1 = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
+
+k = 0
+lambda_value_exp_k = lambda_value^k
+probability_k0 = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
+
+probability <- 1 - (probability_k0 + probability_k1)
+
+print(probability)
+
+```
+
+**3.- Un río tiene un promedio de 3 bacterias E. coli por 5 ml de agua. ¿Cuál es la probabilidad de que se
+encuentren exactamente 20 bacterias en una muestra de 50 ml?**
+
+
+
+```{r}
+lambda_value = 3 # por cada 5 ml
+lambda_value = lambda_value * 10 # para mantener la proporcion a 50ml
+e = exp(1)
+k = 20
+print(dpois(k,lambda_value))
+
+
+lambda_value_exp_k = lambda_value^k
+e = exp(1)
+e_exp_menos_lambda = e^(-lambda_value)
+factorial_k = factorial(k)
+
+probability = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
+
+print(probability)
+
+```
 

@@ -1628,10 +1628,11 @@ display: none;
 
 <div id="distribucion-de-probabilidad-binomial" class="section level2">
 <h2>Distribucion de Probabilidad Binomial</h2>
-<p>1.- Un laboratorio afirma que una droga causa efectos secundarios en
-una proporción de 3 de cada 100 pacientes. Para contrastar esta
-afirmación, otro laboratorio elige al azar a 5 pacientes a los que
-aplica la droga. ¿Cuál es la probabilidad de los siguientes sucesos?</p>
+<p><strong>1.- Un laboratorio afirma que una droga causa efectos
+secundarios en una proporción de 3 de cada 100 pacientes. Para
+contrastar esta afirmación, otro laboratorio elige al azar a 5 pacientes
+a los que aplica la droga. ¿Cuál es la probabilidad de los siguientes
+sucesos?</strong></p>
 <ol style="list-style-type: lower-alpha">
 <li>Ningún paciente tenga efectos secundarios.</li>
 </ol>
@@ -1682,46 +1683,20 @@ probability = 3 / 100
 
 media = n * probability
 
-print(&quot;Numero de pacientes esperados que tengan efectos secundarios: {media}.&quot;)</code></pre>
-<pre><code>## [1] &quot;Numero de pacientes esperados que tengan efectos secundarios: {media}.&quot;</code></pre>
+print(&quot;Numero de pacientes esperados que tengan efectos secundarios:&quot;)</code></pre>
+<pre><code>## [1] &quot;Numero de pacientes esperados que tengan efectos secundarios:&quot;</code></pre>
+<pre class="r"><code>print(media)</code></pre>
+<pre><code>## [1] 3</code></pre>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>La desviación estándar de pacientes que espera el laboratorio que
 sufran efectos secundarios si elige 100 pacientes al azar.</li>
 </ol>
-<pre class="r"><code>n = 100
-k = 50
-x = 50
-probability = 3 / 100
+<pre class="r"><code>n &lt;- 100
+p &lt;- 0.03
 
-print(dbinom(x,n,probability))</code></pre>
-<pre><code>## [1] 1.579441e-48</code></pre>
-<pre class="r"><code>factorial_n = factorial(n)
-factorial_k = factorial(k)
-factorial_n_menos_k = factorial(n-k)
-probability_exp_k = probability^k
-probability_n_minus_k = (1-probability)^(n-k)
-resultado &lt;- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
-
-print(resultado)</code></pre>
-<pre><code>## [1] 1.579441e-48</code></pre>
-<pre class="r"><code># WORKING ON BOOK EXAMPLE
-
-n = 10#100
-k = 2#3
-x = 2#0
-probability = .1 #k / n
-print(dbinom(x,n,probability)) # 0.047</code></pre>
-<pre><code>## [1] 0.1937102</code></pre>
-<pre class="r"><code>factorial_n = factorial(n)
-factorial_k = factorial(k)
-factorial_n_menos_k = factorial(n-k)
-probability_exp_k = probability^k
-probability_n_minus_k = (1-probability)^(n-k)
-resultado &lt;- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k #(.430467)  ##((probability^k) * (1-probability^(n-k)))
-
-
-print(resultado)</code></pre>
-<pre><code>## [1] 0.1937102</code></pre>
+desviacion &lt;- sqrt(n * p * (1 - p))
+print(desviacion)</code></pre>
+<pre><code>## [1] 1.705872</code></pre>
 </div>
 
 

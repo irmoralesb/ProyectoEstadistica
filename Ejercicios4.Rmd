@@ -1,0 +1,85 @@
+---
+title: "Ejercicios 4"
+output:
+  html_document:
+    df_print: paged
+date: "2024-11-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Distribucion de Probabilidad Binomial
+
+1.- Un laboratorio afirma que una droga causa efectos secundarios en una proporción de 3 de cada 100
+pacientes. Para contrastar esta afirmación, otro laboratorio elige al azar a 5 pacientes a los que aplica
+la droga. ¿Cuál es la probabilidad de los siguientes sucesos?
+
+a) Ningún paciente tenga efectos secundarios.
+
+$P(x=k)=C^n_k p^k q^{n-k}= {\dfrac {n!}{k!(n-k)!} p^kq^{n-k}}$
+
+Data
+n = 100
+k = 3
+P(x=0)
+
+```{r}
+n = 5
+k = 0
+x = 0
+probability = 3 / 100
+
+print(dbinom(x,n,probability))
+
+factorial_n = factorial(n)
+factorial_k = factorial(k)
+factorial_n_menos_k = factorial(n-k)
+probability_exp_k = probability^k
+probability_n_minus_k = (1-probability)^(n-k)
+resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
+
+print(resultado)
+```
+
+b) Al menos tres personas tengan efectos secundarios.
+
+```{r}
+n = 5
+k = 3
+x = 3
+probability = 3 / 100
+
+print(dbinom(x,n,probability))
+
+factorial_n = factorial(n)
+factorial_k = factorial(k)
+factorial_n_menos_k = factorial(n-k)
+probability_exp_k = probability^k
+probability_n_minus_k = (1-probability)^(n-k)
+resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
+
+print(resultado)
+```
+c) El número medio de pacientes que espera laboratorio que sufran efectos secundarios si elige 100 pacientes al azar.
+```{r}
+n = 100
+probability = 3 / 100
+
+media = n * probability
+
+print("Numero de pacientes esperados que tengan efectos secundarios:")
+print(media)
+```
+
+d) La desviación estándar de pacientes que espera el laboratorio que sufran efectos secundarios si elige 100 pacientes al azar.
+```{r}
+n <- 100
+p <- 0.03
+
+desviacion <- sqrt(n * p * (1 - p))
+print(desviacion)
+```
+
+

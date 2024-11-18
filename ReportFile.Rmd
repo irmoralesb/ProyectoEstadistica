@@ -242,3 +242,20 @@ plot(marcasDeClase, tabla_agrupada$NumDePersonas, type = "h", lwd=45, lend=1, co
 * Elegir dados los datos, una distribución de probabilidad, preferentemente la normal para trabajar.
 * Elegir para cada etapa de la vida (niñez, adolescencia, juventud, adultez, vejez) un valor ( por ejemplo, en adultez la edad del equipo, en niñez la edad de su hijo, etc.)
   * Utilizar las unidades Z para calcular dada la media y la varianza, la probabilidad de que la edad media de la etapa sea menor al valor extremo de la etapa dado esto es P(edad media<=Valor extremo de la etapa). Por ejemplo el valor medio de la niñez sea de 10,000 y el valor total de la etapa de niñez sea 23000.
+
+
+Tomando la distribucion normal
+
+Seleccion de valores para cada etapa de la vida
+* Niñes - 0 a 12 : 8
+* Adolescencia - 13 a 18 : 16
+* Juventud - 19 a 25 : 21
+* Adultez - 26 a 60: 33
+* Vejez - 61 a 100: 80
+
+```{r}
+
+
+
+```
+

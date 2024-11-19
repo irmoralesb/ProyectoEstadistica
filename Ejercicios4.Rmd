@@ -143,3 +143,105 @@ print(probability)
 
 ```
 
+## Distribución de Probabilidad Geométrica
+
+**4.-En la copa Mundial FIFA, Alemania tiene un 60% de probabilidad de ganar un partido. ¿Cuál es la
+probabilidad de que Alemania juegue hasta perder, si se sabe que en la copa del mundo se juegan 3
+partidos de grupos, 1 partido de octavos de final, 1 partido de cuartos de final, 1 partido de semifinales
+y otro de final, sin contar empates en la fase de grupos, esto implica que debe ganar los tres primeros
+partidos?**
+
+```{r}
+p <- 0.6
+k <- 4
+
+prob <- (1-p) * p^(k-1)
+print(prob)
+
+```
+## Distribución de Probabilidad Normal
+
+**5.- El precio promedio de las acciones de una empresa es de $25 con una desviación típica de $4.**
+
+Determine la probabilidad que:
+a) Una acción tenga un costo menor de $20.
+
+```{r}
+desviacion_estandar <- 4
+media <- 25
+costo <- 20
+probability <- pnorm(costo,mean= media,sd=desviacion_estandar)
+print(probability)
+
+#Obtener Z
+Z <- (costo - media)/ desviacion_estandar
+print(Z)
+
+# Leyendo tabla de libro:Introduccion a la probabilidad y estadistica
+# Pagina 688, se obtiene que la probabilidad de Z = -1.25 es: 0.1056
+probability <- 0.1056
+
+```
+
+b) Una acción tenga un costo mayor de $30.
+```{r}
+desviacion_estandar <- 4
+media <- 25
+costo <- 30
+probability <- pnorm(costo,mean=media,sd=desviacion_estandar,lower.tail = FALSE)
+print(probability)
+
+Z <- (costo - media)/ desviacion_estandar
+print(Z)
+# Leyendo tabla de libro:Introduccion a la probabilidad y estadistica
+# Pagina 689, se obtiene que la probabilidad de Z = 1.25 es: 0.8944
+# Pero esto es la probabilidad de que sea menor a 30, queremos la diferencia
+
+probability <- 1 - 0.8944 # Valor de tabla
+print(probability)
+
+```
+
+c) El precio esté comprendido entre $20 y $30.
+```{r}
+#Ya tenemos la probabilidad de Menor de 20
+probability_menor_20 <- 0.1056
+probability_mayor_30 <- 0.1056
+
+probability_entre_20_Y_30 <- 1 - probability_menor_20 - probability_menor_20
+print(probability_entre_20_Y_30)
+
+```
+## Distribución de Probabilidad Hipergeométrica
+**6.- Supongamos una máquina que produce tornillos y los datos acumulados indican que el 1% salen con defectos. Se tiene una caja con muestra de 60 tornillos.**
+
+
+a) ¿Cuál es la probabilidad de que ningún tornillo salga defectuoso?
+```{r}
+
+```
+
+b) ¿Cuál es la probabilidad de que exactamente 3 tornillos salgan defectuosos?
+```{r}
+
+```
+
+c) ¿Cuál es la probabilidad de que más de 3 tornillos salgan defectuosos?
+```{r}
+
+```
+
+
+**7.- Las especificaciones para la fabricación de cierta aleación exigen 23.2% de cobre. Una muestra de 10 análisis del producto ha revelado un contenido medio de 23.5% de bore con una desviación típica de .24%. ¿Podemos concluir que el producto cumple las especificaciones al nivel de significación:**
+
+a) 0.01
+```{r}
+
+```
+
+
+b) 0.05
+```{r}
+
+```
+

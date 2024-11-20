@@ -219,19 +219,55 @@ print(probability_entre_20_Y_30)
 
 a) ¿Cuál es la probabilidad de que ningún tornillo salga defectuoso?
 ```{r}
-N <- ? #Poblacion total
-n <- 60
+N <- 100 #Poblacion total
+n <- 60 # Tamaño de la muestra
+K <- 1 # 
 k <- 0
+
+#Calculamos terminos
+primer_termino <- 1  
+segundo_termino <- factorial(N-K) / (factorial(n) * factorial((N-K) - n))
+tercer_termino <- factorial(N)/(factorial(n) * factorial(N-n))
+
+probability <- (primer_termino * segundo_termino) / tercer_termino
+print(probability)
+
+#Comprobacion en R
+probability <- dhyper(k,K,N-K,n)
+print(probability)
 
 ```
 
 b) ¿Cuál es la probabilidad de que exactamente 3 tornillos salgan defectuosos?
 ```{r}
+N <- 100 #Poblacion total
+n <- 60 # Tamaño de la muestra
+K <- 1 # 
+k <- 3
 
+#Calculamos terminos
+primer_termino <- 0   # Ya que k es mayor que K
+segundo_termino <- factorial(N-K) / (factorial(n) * factorial((N-K) - n))
+tercer_termino <- factorial(N)/(factorial(n) * factorial(N-n))
+
+probability <- (primer_termino * segundo_termino) / tercer_termino
+print(probability)
+
+#Comprobacion en R
+probability <- dhyper(k,K,N-K,n)
+print(probability)
 ```
 
 c) ¿Cuál es la probabilidad de que más de 3 tornillos salgan defectuosos?
 ```{r}
+k <- 4
+
+# Sabemos que si con 3 la probabilidad es 0, con mas de 3 sigue siendo 0.
+
+
+#Comprobacion en R
+probability <- dhyper(k,K,N-K,n)
+print(probability)
 
 ```
 

@@ -213,11 +213,15 @@ print(probability_entre_20_Y_30)
 
 ```
 ## Distribución de Probabilidad Hipergeométrica
+
 **6.- Supongamos una máquina que produce tornillos y los datos acumulados indican que el 1% salen con defectos. Se tiene una caja con muestra de 60 tornillos.**
 
 
 a) ¿Cuál es la probabilidad de que ningún tornillo salga defectuoso?
 ```{r}
+N <- ? #Poblacion total
+n <- 60
+k <- 0
 
 ```
 

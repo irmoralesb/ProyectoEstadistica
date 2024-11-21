@@ -1,9 +1,33 @@
 ---
 title: "Ejercicio 4"
+author: "Ignacio Raul Morales Berber"
+date: "`r format(Sys.Date(), '%d de %B de %Y')`"
 output: pdf_document
+geometry: a4paper
+fontsize: 12pt
+header-includes:
+  - \usepackage{titling}
+  - \usepackage{graphicx}
 ---
+\begin{titlepage}
+\centering
+\includegraphics[width=0.3\textwidth]{uvm_logo.png} \\[1cm]
+{\Huge Universidad del Estado de Mexico}\\[0.5cm]
+{\Large En Linea}\\[1cm]
 
+{\LARGE \textbf{Ejercicio 4}}\\[1cm]
 
+{\Large Materia: Estadistica Descriptiva e Inferencia}\\
+{\Large Profesora: Shurabe Guido Aguilar}\\[1cm]
+
+\textbf{Alumnos:} \\
+Alexis Xiomara Villegas Cortes \\ 
+Denisse Aurora Alvarado Reyna \\ 
+Ignacio Raul Morales Berber \\[3cm]
+
+\vfill
+{\Large `r format(Sys.Date(), '%d de %B de %Y')`}
+\end{titlepage}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

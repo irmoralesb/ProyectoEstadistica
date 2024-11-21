@@ -1644,17 +1644,19 @@ k = 0
 x = 0
 probability = 3 / 100
 
-print(dbinom(x,n,probability))</code></pre>
-<pre><code>## [1] 0.858734</code></pre>
-<pre class="r"><code>factorial_n = factorial(n)
+
+
+factorial_n = factorial(n)
 factorial_k = factorial(k)
 factorial_n_menos_k = factorial(n-k)
 probability_exp_k = probability^k
 probability_n_minus_k = (1-probability)^(n-k)
 resultado &lt;- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
 
-print(resultado)</code></pre>
-<pre><code>## [1] 0.858734</code></pre>
+sprintf(&quot;Probabilidad por metodo manual %s&quot;,resultado)</code></pre>
+<pre><code>## [1] &quot;Probabilidad por metodo manual 0.8587340257&quot;</code></pre>
+<pre class="r"><code>sprintf(&quot;Probabilidad usando R: %s&quot;,dbinom(x,n,probability))</code></pre>
+<pre><code>## [1] &quot;Probabilidad usando R: 0.8587340257&quot;</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Al menos tres personas tengan efectos secundarios.</li>
 </ol>
@@ -1663,17 +1665,17 @@ k = 3
 x = 3
 probability = 3 / 100
 
-print(dbinom(x,n,probability))</code></pre>
-<pre><code>## [1] 0.000254043</code></pre>
-<pre class="r"><code>factorial_n = factorial(n)
+factorial_n = factorial(n)
 factorial_k = factorial(k)
 factorial_n_menos_k = factorial(n-k)
 probability_exp_k = probability^k
 probability_n_minus_k = (1-probability)^(n-k)
 resultado &lt;- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
 
-print(resultado)</code></pre>
-<pre><code>## [1] 0.000254043</code></pre>
+sprintf(&quot;Probabilidad por metodo manual %s&quot;,resultado)</code></pre>
+<pre><code>## [1] &quot;Probabilidad por metodo manual 0.000254043&quot;</code></pre>
+<pre class="r"><code>sprintf(&quot;Probabilidad usando R: %s&quot;,dbinom(x,n,probability))</code></pre>
+<pre><code>## [1] &quot;Probabilidad usando R: 0.000254043&quot;</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>El número medio de pacientes que espera laboratorio que sufran
 efectos secundarios si elige 100 pacientes al azar.</li>
@@ -1683,10 +1685,8 @@ probability = 3 / 100
 
 media = n * probability
 
-print(&quot;Numero de pacientes esperados que tengan efectos secundarios:&quot;)</code></pre>
-<pre><code>## [1] &quot;Numero de pacientes esperados que tengan efectos secundarios:&quot;</code></pre>
-<pre class="r"><code>print(media)</code></pre>
-<pre><code>## [1] 3</code></pre>
+sprintf(&quot;Numero de pacientes esperados que tengan efectos secundarios: %s&quot;, media)</code></pre>
+<pre><code>## [1] &quot;Numero de pacientes esperados que tengan efectos secundarios: 3&quot;</code></pre>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>La desviación estándar de pacientes que espera el laboratorio que
 sufran efectos secundarios si elige 100 pacientes al azar.</li>
@@ -1695,8 +1695,236 @@ sufran efectos secundarios si elige 100 pacientes al azar.</li>
 p &lt;- 0.03
 
 desviacion &lt;- sqrt(n * p * (1 - p))
-print(desviacion)</code></pre>
-<pre><code>## [1] 1.705872</code></pre>
+sprintf(&quot;Con desviacion estandar: %s&quot;, desviacion)</code></pre>
+<pre><code>## [1] &quot;Con desviacion estandar: 1.7058722109232&quot;</code></pre>
+</div>
+<div id="distribución-de-probabilidad-de-poisson" class="section level2">
+<h2>Distribución de Probabilidad de Poisson</h2>
+<p><strong>2.- La contestadora automática de UVM recibe alrededor de
+seis llamadas telefónicas entre las 8 de la mañana y las 10 de la
+mañana. ¿Cuál es la probabilidad de que Leah reciba más de una llamada
+en los próximos 15 minutos? Sugerencia: Calcular la media lambda en
+términos de 8 intervalos de 15 minutos la hora.</strong></p>
+<p>Datos: Llamadas : 6 Horas: 8 - 10AM Tomando Lapso de tiempo de 15
+min: 0.75 llamadas Lambda = 0.75</p>
+<pre class="r"><code>lambda_value = 0.75
+e = exp(1)
+k = 1
+
+lambda_value_exp_k = lambda_value^k
+e = exp(1)
+e_exp_menos_lambda = e^(-lambda_value)
+factorial_k = factorial(k)
+
+probability_k1 = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
+
+k = 0
+lambda_value_exp_k = lambda_value^k
+probability_k0 = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
+
+probability &lt;- 1 - (probability_k0 + probability_k1)
+
+sprintf(&quot;Probablidad de que se reciba mas de una llamada en los proximos 15 min: %s&quot;, probability)</code></pre>
+<pre><code>## [1] &quot;Probablidad de que se reciba mas de una llamada en los proximos 15 min: 0.173358532703224&quot;</code></pre>
+<pre class="r"><code>k&lt;-1
+sprintf(&quot;Calculo usando R: %s&quot;, ppois(k,lambda = lambda_value,lower.tail = FALSE))</code></pre>
+<pre><code>## [1] &quot;Calculo usando R: 0.173358532703224&quot;</code></pre>
+<p><strong>3.- Un río tiene un promedio de 3 bacterias E. coli por 5 ml
+de agua. ¿Cuál es la probabilidad de que se encuentren exactamente 20
+bacterias en una muestra de 50 ml?</strong></p>
+<pre class="r"><code>lambda_value = 3 # por cada 5 ml
+lambda_value = lambda_value * 10 # para mantener la proporcion a 50ml
+e = exp(1)
+k = 20
+
+lambda_value_exp_k = lambda_value^k
+e = exp(1)
+e_exp_menos_lambda = e^(-lambda_value)
+factorial_k = factorial(k)
+
+probability = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
+
+sprintf(&quot;probabilidad de que se encuentren exactamente 20 bacterias en una muestra de 50 ml: %s&quot;,probability)</code></pre>
+<pre><code>## [1] &quot;probabilidad de que se encuentren exactamente 20 bacterias en una muestra de 50 ml: 0.0134111500128378&quot;</code></pre>
+<pre class="r"><code>sprintf(&quot;Probabilidad usando R: %s&quot;, dpois(k,lambda_value))</code></pre>
+<pre><code>## [1] &quot;Probabilidad usando R: 0.0134111500128378&quot;</code></pre>
+</div>
+<div id="distribución-de-probabilidad-geométrica" class="section level2">
+<h2>Distribución de Probabilidad Geométrica</h2>
+<p><strong>4.-En la copa Mundial FIFA, Alemania tiene un 60% de
+probabilidad de ganar un partido. ¿Cuál es la probabilidad de que
+Alemania juegue hasta perder, si se sabe que en la copa del mundo se
+juegan 3 partidos de grupos, 1 partido de octavos de final, 1 partido de
+cuartos de final, 1 partido de semifinales y otro de final, sin contar
+empates en la fase de grupos, esto implica que debe ganar los tres
+primeros partidos?</strong></p>
+<pre class="r"><code>p &lt;- 0.6
+k &lt;- 4
+
+prob &lt;- (1-p) * p^(k-1)
+sprintf(&quot;Probabilidad calculada perdiendo el 4to partido: %s&quot;, prob)</code></pre>
+<pre><code>## [1] &quot;Probabilidad calculada perdiendo el 4to partido: 0.0864&quot;</code></pre>
+</div>
+<div id="distribución-de-probabilidad-normal" class="section level2">
+<h2>Distribución de Probabilidad Normal</h2>
+<p><strong>5.- El precio promedio de las acciones de una empresa es de
+$25 con una desviación típica de $4.</strong></p>
+<p>Determine la probabilidad que: a) Una acción tenga un costo menor de
+$20.</p>
+<pre class="r"><code>desviacion_estandar &lt;- 4
+media &lt;- 25
+costo &lt;- 20
+
+#Obtener Z
+Z &lt;- (costo - media)/ desviacion_estandar
+print(Z)</code></pre>
+<pre><code>## [1] -1.25</code></pre>
+<pre class="r"><code># Leyendo tabla de libro:Introduccion a la probabilidad y estadistica
+# Pagina 688, se obtiene que la probabilidad de Z = -1.25 es: 0.1056
+probability &lt;- 0.1056
+sprintf(&quot;La probabilidad de una accion tenga un costo menor que $20 usando Z: %s es %s&quot;,Z,  probability)</code></pre>
+<pre><code>## [1] &quot;La probabilidad de una accion tenga un costo menor que $20 usando Z: -1.25 es 0.1056&quot;</code></pre>
+<pre class="r"><code>probability &lt;- pnorm(costo,mean= media,sd=desviacion_estandar)
+sprintf(&quot;Probabilidad calculada con R: %s&quot;, probability)</code></pre>
+<pre><code>## [1] &quot;Probabilidad calculada con R: 0.105649773666855&quot;</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Una acción tenga un costo mayor de $30.</li>
+</ol>
+<pre class="r"><code>desviacion_estandar &lt;- 4
+media &lt;- 25
+costo &lt;- 30
+
+Z &lt;- (costo - media)/ desviacion_estandar
+print(Z)</code></pre>
+<pre><code>## [1] 1.25</code></pre>
+<pre class="r"><code># Leyendo tabla de libro:Introduccion a la probabilidad y estadistica
+# Pagina 689, se obtiene que la probabilidad de Z = 1.25 es: 0.8944
+# Pero esto es la probabilidad de que sea menor a 30, queremos la diferencia
+
+probability &lt;- 1 - 0.8944 # Valor de tabla
+sprintf(&quot;La probabilidad de una accion tenga un costo menor que $20 usando Z: %s es %s&quot;,Z,  probability)</code></pre>
+<pre><code>## [1] &quot;La probabilidad de una accion tenga un costo menor que $20 usando Z: 1.25 es 0.1056&quot;</code></pre>
+<pre class="r"><code>probability &lt;- pnorm(costo,mean=media,sd=desviacion_estandar,lower.tail = FALSE)
+sprintf(&quot;Probabilidad calculada con R: %s&quot;, probability)</code></pre>
+<pre><code>## [1] &quot;Probabilidad calculada con R: 0.105649773666855&quot;</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>El precio esté comprendido entre $20 y $30.</li>
+</ol>
+<pre class="r"><code>#Ya tenemos la probabilidad de Menor de 20
+probability_menor_20 &lt;- 0.1056
+probability_mayor_30 &lt;- 0.1056
+
+probability_entre_20_Y_30 &lt;- 1 - probability_menor_20 - probability_menor_20
+sprintf(&quot;Probabilidad comprendida entre 20 y 30 %s&quot;, probability_entre_20_Y_30)</code></pre>
+<pre><code>## [1] &quot;Probabilidad comprendida entre 20 y 30 0.7888&quot;</code></pre>
+</div>
+<div id="distribución-de-probabilidad-hipergeométrica" class="section level2">
+<h2>Distribución de Probabilidad Hipergeométrica</h2>
+<p><strong>6.- Supongamos una máquina que produce tornillos y los datos
+acumulados indican que el 1% salen con defectos. Se tiene una caja con
+muestra de 60 tornillos.</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li>¿Cuál es la probabilidad de que ningún tornillo salga
+defectuoso?</li>
+</ol>
+<pre class="r"><code>N &lt;- 100 #Poblacion total
+n &lt;- 60 # Tamaño de la muestra
+K &lt;- 1 # 
+k &lt;- 0
+
+#Calculamos terminos
+primer_termino &lt;- 1  
+segundo_termino &lt;- factorial(N-K) / (factorial(n) * factorial((N-K) - n))
+tercer_termino &lt;- factorial(N)/(factorial(n) * factorial(N-n))
+
+probability &lt;- (primer_termino * segundo_termino) / tercer_termino
+sprintf(&quot;Probabilidad de que ningun tornillo salga defectuoso: %s&quot;,probability)</code></pre>
+<pre><code>## [1] &quot;Probabilidad de que ningun tornillo salga defectuoso: 0.400000000000008&quot;</code></pre>
+<pre class="r"><code>#Comprobacion en R
+probability &lt;- dhyper(k,K,N-K,n)
+sprintf(&quot;Probabilidad calculada con R %s&quot;,probability)</code></pre>
+<pre><code>## [1] &quot;Probabilidad calculada con R 0.4&quot;</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>¿Cuál es la probabilidad de que exactamente 3 tornillos salgan
+defectuosos?</li>
+</ol>
+<pre class="r"><code>N &lt;- 100 #Poblacion total
+n &lt;- 60 # Tamaño de la muestra
+K &lt;- 1 # 
+k &lt;- 3
+
+#Calculamos terminos
+primer_termino &lt;- 0   # Ya que k es mayor que K
+segundo_termino &lt;- factorial(N-K) / (factorial(n) * factorial((N-K) - n))
+tercer_termino &lt;- factorial(N)/(factorial(n) * factorial(N-n))
+
+probability &lt;- (primer_termino * segundo_termino) / tercer_termino
+sprintf(&quot;Probabilidad de salgan 3 tornillos defectuosos: %s&quot;,probability)</code></pre>
+<pre><code>## [1] &quot;Probabilidad de salgan 3 tornillos defectuosos: 0&quot;</code></pre>
+<pre class="r"><code>#Comprobacion en R
+probability &lt;- dhyper(k,K,N-K,n)
+sprintf(&quot;Probabilidad calculada con R %s&quot;,probability)</code></pre>
+<pre><code>## [1] &quot;Probabilidad calculada con R 0&quot;</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>¿Cuál es la probabilidad de que más de 3 tornillos salgan
+defectuosos?</li>
+</ol>
+<pre class="r"><code>k &lt;- 4
+
+# Sabemos que si con 3 la probabilidad es 0, con mas de 3 sigue siendo 0.
+print(&quot;Sabemos que si con 3 la probabilidad es 0, con mas de 3 sigue siendo 0.&quot;)</code></pre>
+<pre><code>## [1] &quot;Sabemos que si con 3 la probabilidad es 0, con mas de 3 sigue siendo 0.&quot;</code></pre>
+<pre class="r"><code>#Comprobacion en R
+probability &lt;- dhyper(k,K,N-K,n)
+sprintf(&quot;Probabilidad calculada con R %s&quot;,probability)</code></pre>
+<pre><code>## [1] &quot;Probabilidad calculada con R 0&quot;</code></pre>
+<p><strong>7.- Las especificaciones para la fabricación de cierta
+aleación exigen 23.2% de cobre. Una muestra de 10 análisis del producto
+ha revelado un contenido medio de 23.5% de bore con una desviación
+típica de .24%. ¿Podemos concluir que el producto cumple las
+especificaciones al nivel de significación:</strong></p>
+<p>Hipotesis <span class="math inline">\(H0:μ = 23.2\)</span> (cumple)
+<span class="math inline">\(Ha:μ \neq 23.2\)</span> (no cumple)</p>
+<p><span class="math inline">\(t=\frac{x-\mu}{\frac{x}{\sqrt{n}}}\)</span></p>
+<ol style="list-style-type: lower-alpha">
+<li>0.01</li>
+</ol>
+<pre class="r"><code>#Datos
+x &lt;- 23.5
+mu &lt;- 23.2
+s &lt;- 0.24
+n &lt;- 10
+alpha &lt;- 0.01
+
+t &lt;- (x - mu)/(s/sqrt(n))
+sprintf(&quot;t: %s&quot;, t)</code></pre>
+<pre><code>## [1] &quot;t: 3.95284707521048&quot;</code></pre>
+<pre class="r"><code># Valor crítico para un test bilateral
+
+grados_de_libertad &lt;- n - 1
+t_critico &lt;- qt(1 - alpha / 2, df= grados_de_libertad)
+sprintf(&quot;t critico: %s&quot;, t_critico)</code></pre>
+<pre><code>## [1] &quot;t critico: 3.24983554159213&quot;</code></pre>
+<p>t &gt; t_critico, por lo que se rechaza H0 y por lo tanto de acepta
+Ha</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>0.05</li>
+</ol>
+<pre class="r"><code>x &lt;- 23.5
+mu &lt;- 23.2
+s &lt;-0.24
+n &lt;- 10
+alpha &lt;- 0.05
+
+t&lt;- (x-mu)/(s/sqrt(n))
+sprintf(&quot;t: %s&quot;, t)</code></pre>
+<pre><code>## [1] &quot;t: 3.95284707521048&quot;</code></pre>
+<pre class="r"><code>grados_de_libertad &lt;- n - 1
+t_critico &lt;- qt(1-alpha/2,df=grados_de_libertad)
+sprintf(&quot;t critico: %s&quot;,t_critico)</code></pre>
+<pre><code>## [1] &quot;t critico: 2.2621571627982&quot;</code></pre>
+<p>t &gt; t_critico, por lo que se rechaza H0 y por lo tanto se acepta
+Ha</p>
 </div>
 
 

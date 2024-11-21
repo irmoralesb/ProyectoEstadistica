@@ -31,7 +31,7 @@ k = 0
 x = 0
 probability = 3 / 100
 
-print(dbinom(x,n,probability))
+
 
 factorial_n = factorial(n)
 factorial_k = factorial(k)
@@ -40,7 +40,10 @@ probability_exp_k = probability^k
 probability_n_minus_k = (1-probability)^(n-k)
 resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
 
-print(resultado)
+sprintf("Probabilidad por metodo manual %s",resultado)
+
+
+sprintf("Probabilidad usando R: %s",dbinom(x,n,probability))
 ```
 
 b) Al menos tres personas tengan efectos secundarios.
@@ -51,8 +54,6 @@ k = 3
 x = 3
 probability = 3 / 100
 
-print(dbinom(x,n,probability))
-
 factorial_n = factorial(n)
 factorial_k = factorial(k)
 factorial_n_menos_k = factorial(n-k)
@@ -60,7 +61,10 @@ probability_exp_k = probability^k
 probability_n_minus_k = (1-probability)^(n-k)
 resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
 
-print(resultado)
+sprintf("Probabilidad por metodo manual %s",resultado)
+
+
+sprintf("Probabilidad usando R: %s",dbinom(x,n,probability))
 ```
 c) El número medio de pacientes que espera laboratorio que sufran efectos secundarios si elige 100 pacientes al azar.
 ```{r}
@@ -69,8 +73,8 @@ probability = 3 / 100
 
 media = n * probability
 
-print("Numero de pacientes esperados que tengan efectos secundarios:")
-print(media)
+sprintf("Numero de pacientes esperados que tengan efectos secundarios: %s", media)
+
 ```
 
 d) La desviación estándar de pacientes que espera el laboratorio que sufran efectos secundarios si elige 100 pacientes al azar.
@@ -79,7 +83,7 @@ n <- 100
 p <- 0.03
 
 desviacion <- sqrt(n * p * (1 - p))
-print(desviacion)
+sprintf("Con desviacion estandar: %s", desviacion)
 ```
 
 ## Distribución de Probabilidad de Poisson
@@ -100,8 +104,6 @@ lambda_value = 0.75
 e = exp(1)
 k = 1
 
-print(ppois(k,lambda = lambda_value,lower.tail = FALSE))
-
 lambda_value_exp_k = lambda_value^k
 e = exp(1)
 e_exp_menos_lambda = e^(-lambda_value)
@@ -115,13 +117,14 @@ probability_k0 = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
 
 probability <- 1 - (probability_k0 + probability_k1)
 
-print(probability)
+sprintf("Probablidad de que se reciba mas de una llamada en los proximos 15 min: %s", probability)
 
+k<-1
+sprintf("Calculo usando R: %s", ppois(k,lambda = lambda_value,lower.tail = FALSE))
 ```
 
 **3.- Un río tiene un promedio de 3 bacterias E. coli por 5 ml de agua. ¿Cuál es la probabilidad de que se
 encuentren exactamente 20 bacterias en una muestra de 50 ml?**
-
 
 
 ```{r}
@@ -129,8 +132,6 @@ lambda_value = 3 # por cada 5 ml
 lambda_value = lambda_value * 10 # para mantener la proporcion a 50ml
 e = exp(1)
 k = 20
-print(dpois(k,lambda_value))
-
 
 lambda_value_exp_k = lambda_value^k
 e = exp(1)
@@ -139,8 +140,9 @@ factorial_k = factorial(k)
 
 probability = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
 
-print(probability)
+sprintf("probabilidad de que se encuentren exactamente 20 bacterias en una muestra de 50 ml: %s",probability)
 
+sprintf("Probabilidad usando R: %s", dpois(k,lambda_value))
 ```
 
 ## Distribución de Probabilidad Geométrica
@@ -156,7 +158,7 @@ p <- 0.6
 k <- 4
 
 prob <- (1-p) * p^(k-1)
-print(prob)
+sprintf("Probabilidad calculada perdiendo el 4to partido: %s", prob)
 
 ```
 ## Distribución de Probabilidad Normal
@@ -170,8 +172,6 @@ a) Una acción tenga un costo menor de $20.
 desviacion_estandar <- 4
 media <- 25
 costo <- 20
-probability <- pnorm(costo,mean= media,sd=desviacion_estandar)
-print(probability)
 
 #Obtener Z
 Z <- (costo - media)/ desviacion_estandar
@@ -180,7 +180,10 @@ print(Z)
 # Leyendo tabla de libro:Introduccion a la probabilidad y estadistica
 # Pagina 688, se obtiene que la probabilidad de Z = -1.25 es: 0.1056
 probability <- 0.1056
+sprintf("La probabilidad de una accion tenga un costo menor que $20 usando Z: %s es %s",Z,  probability)
 
+probability <- pnorm(costo,mean= media,sd=desviacion_estandar)
+sprintf("Probabilidad calculada con R: %s", probability)
 ```
 
 b) Una acción tenga un costo mayor de $30.
@@ -188,8 +191,6 @@ b) Una acción tenga un costo mayor de $30.
 desviacion_estandar <- 4
 media <- 25
 costo <- 30
-probability <- pnorm(costo,mean=media,sd=desviacion_estandar,lower.tail = FALSE)
-print(probability)
 
 Z <- (costo - media)/ desviacion_estandar
 print(Z)
@@ -198,7 +199,10 @@ print(Z)
 # Pero esto es la probabilidad de que sea menor a 30, queremos la diferencia
 
 probability <- 1 - 0.8944 # Valor de tabla
-print(probability)
+sprintf("La probabilidad de una accion tenga un costo menor que $20 usando Z: %s es %s",Z,  probability)
+
+probability <- pnorm(costo,mean=media,sd=desviacion_estandar,lower.tail = FALSE)
+sprintf("Probabilidad calculada con R: %s", probability)
 
 ```
 
@@ -209,8 +213,7 @@ probability_menor_20 <- 0.1056
 probability_mayor_30 <- 0.1056
 
 probability_entre_20_Y_30 <- 1 - probability_menor_20 - probability_menor_20
-print(probability_entre_20_Y_30)
-
+sprintf("Probabilidad comprendida entre 20 y 30 %s", probability_entre_20_Y_30)
 ```
 ## Distribución de Probabilidad Hipergeométrica
 
@@ -230,11 +233,11 @@ segundo_termino <- factorial(N-K) / (factorial(n) * factorial((N-K) - n))
 tercer_termino <- factorial(N)/(factorial(n) * factorial(N-n))
 
 probability <- (primer_termino * segundo_termino) / tercer_termino
-print(probability)
+sprintf("Probabilidad de que ningun tornillo salga defectuoso: %s",probability)
 
 #Comprobacion en R
 probability <- dhyper(k,K,N-K,n)
-print(probability)
+sprintf("Probabilidad calculada con R %s",probability)
 
 ```
 
@@ -251,11 +254,11 @@ segundo_termino <- factorial(N-K) / (factorial(n) * factorial((N-K) - n))
 tercer_termino <- factorial(N)/(factorial(n) * factorial(N-n))
 
 probability <- (primer_termino * segundo_termino) / tercer_termino
-print(probability)
+sprintf("Probabilidad de salgan 3 tornillos defectuosos: %s",probability)
 
 #Comprobacion en R
 probability <- dhyper(k,K,N-K,n)
-print(probability)
+sprintf("Probabilidad calculada con R %s",probability)
 ```
 
 c) ¿Cuál es la probabilidad de que más de 3 tornillos salgan defectuosos?
@@ -263,25 +266,58 @@ c) ¿Cuál es la probabilidad de que más de 3 tornillos salgan defectuosos?
 k <- 4
 
 # Sabemos que si con 3 la probabilidad es 0, con mas de 3 sigue siendo 0.
-
+print("Sabemos que si con 3 la probabilidad es 0, con mas de 3 sigue siendo 0.")
 
 #Comprobacion en R
 probability <- dhyper(k,K,N-K,n)
-print(probability)
+sprintf("Probabilidad calculada con R %s",probability)
 
 ```
 
 
 **7.- Las especificaciones para la fabricación de cierta aleación exigen 23.2% de cobre. Una muestra de 10 análisis del producto ha revelado un contenido medio de 23.5% de bore con una desviación típica de .24%. ¿Podemos concluir que el producto cumple las especificaciones al nivel de significación:**
 
+Hipotesis
+$H0:μ = 23.2$ (cumple)
+$Ha:μ \neq 23.2$ (no cumple)
+
+$t=\frac{x-\mu}{\frac{x}{\sqrt{n}}}$
+
 a) 0.01
 ```{r}
+#Datos
+x <- 23.5
+mu <- 23.2
+s <- 0.24
+n <- 10
+alpha <- 0.01
+
+t <- (x - mu)/(s/sqrt(n))
+sprintf("t: %s", t)
+
+# Valor crítico para un test bilateral
+
+grados_de_libertad <- n - 1
+t_critico <- qt(1 - alpha / 2, df= grados_de_libertad)
+sprintf("t critico: %s", t_critico)
 
 ```
+t > t_critico, por lo que se rechaza H0 y por lo tanto de acepta Ha
 
 
 b) 0.05
 ```{r}
+x <- 23.5
+mu <- 23.2
+s <-0.24
+n <- 10
+alpha <- 0.05
 
+t<- (x-mu)/(s/sqrt(n))
+sprintf("t: %s", t)
+
+grados_de_libertad <- n - 1
+t_critico <- qt(1-alpha/2,df=grados_de_libertad)
+sprintf("t critico: %s",t_critico)
 ```
-
+t > t_critico, por lo que se rechaza H0 y por lo tanto se acepta Ha

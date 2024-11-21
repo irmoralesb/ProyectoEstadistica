@@ -1,14 +1,16 @@
 ---
-title: "Ejercicios 4"
-output:
-  html_document:
-    df_print: paged
-date: "2024-11-18"
+title: "Ejercicio 4"
+output: pdf_document
 ---
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+
 
 ## Distribucion de Probabilidad Binomial
 
@@ -278,8 +280,8 @@ sprintf("Probabilidad calculada con R %s",probability)
 **7.- Las especificaciones para la fabricación de cierta aleación exigen 23.2% de cobre. Una muestra de 10 análisis del producto ha revelado un contenido medio de 23.5% de bore con una desviación típica de .24%. ¿Podemos concluir que el producto cumple las especificaciones al nivel de significación:**
 
 Hipotesis
-$H0:μ = 23.2$ (cumple)
-$Ha:μ \neq 23.2$ (no cumple)
+$H0:\mu = 23.2$ (cumple)
+$Ha:\mu \neq 23.2$ (no cumple)
 
 $t=\frac{x-\mu}{\frac{x}{\sqrt{n}}}$
 

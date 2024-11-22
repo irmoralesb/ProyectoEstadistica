@@ -366,5 +366,5 @@ t > t_critico, por lo que se rechaza H0 y por lo tanto se acepta Ha
 # Referencias
 
 * Mendenhall, Beaver, Beaver. (2010). Introducción a la probabilidad y estadística
-      13 Edicion, Cengage Learning.
+      13 Edición, Cengage Learning.
       https://learn-us-east-1-prod-fleet02-xythos.content.blackboardcdn.com/5fdc0d8108394/4575538

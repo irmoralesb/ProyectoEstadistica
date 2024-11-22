@@ -9,16 +9,16 @@ header-includes:
 \begin{titlepage}
 \centering
 \includegraphics[width=0.3\textwidth]{uvm_logo.png} \\[1cm]
-{\Huge Universidad del Estado de Mexico}\\[0.5cm]
+{\Huge Universidad del Estado de México}\\[0.5cm]
 {\Large En Linea}\\[1cm]
 
 {\LARGE \textbf{Ejercicio 4}}\\[1cm]
 
-{\Large Materia: Estadistica Descriptiva e Inferencia}\\
+{\Large Materia: Estadística Descriptiva e Inferencial}\\
 {\Large Profesora: Shurabe Guido Aguilar}\\[1cm]
 
 \textbf{Alumno:} \\
-Ignacio Raul Morales Berber \\[3cm]
+Ignacio Raúl Morales Berber \\[3cm]
 
 \vfill
 {\Large `r format(Sys.Date(), '%d de %B de %Y')`}
@@ -28,7 +28,7 @@ Ignacio Raul Morales Berber \\[3cm]
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Distribucion de Probabilidad Binomial
+## Distribución de Probabilidad Binomial
 
 **1.- Un laboratorio afirma que una droga causa efectos secundarios en una proporción de 3 de cada 100
 pacientes. Para contrastar esta afirmación, otro laboratorio elige al azar a 5 pacientes a los que aplica
@@ -57,7 +57,7 @@ probability_n_minus_k = (1-probability)^(n-k)
 resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) *
   (probability_exp_k) * probability_n_minus_k
 
-sprintf("Probabilidad por metodo manual %s",resultado)
+sprintf("Probabilidad por método manual %s",resultado)
 sprintf("Probabilidad usando R: %s",dbinom(x,n,probability))
 ```
 
@@ -77,19 +77,19 @@ probability_n_minus_k = (1-probability)^(n-k)
 resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) *
   (probability_exp_k) * probability_n_minus_k
 
-sprintf("Probabilidad por metodo manual %s",resultado)
+sprintf("Probabilidad por método manual %s",resultado)
 
 sprintf("Probabilidad usando R: %s",dbinom(x,n,probability))
 ```
 
-c) El número medio de pacientes que espera laboratorio que    sufran efectos secundarios si elige 100 pacientes al azar.
+c) El número medio de pacientes que espera laboratorio que sufran efectos secundarios si elige 100 pacientes al azar.
 ```{r}
 n = 100
 probability = 3 / 100
 
 media = n * probability
 
-sprintf("Numero de pacientes esperados con efectos secundarios: %s", media)
+sprintf("Número de pacientes esperados con efectos secundarios: %s", media)
 
 ```
 
@@ -99,7 +99,7 @@ n <- 100
 p <- 0.03
 
 desviacion <- sqrt(n * p * (1 - p))
-sprintf("Con desviacion estandar: %s", desviacion)
+sprintf("Con desviación estandar: %s", desviacion)
 ```
 
 ## Distribución de Probabilidad de Poisson
@@ -136,13 +136,13 @@ probability <- 1 - (probability_k0 + probability_k1)
 
 output <- c(
   sprintf("Probablidad de que se reciba mas de una llamada en"),
-  sprintf("los proximos 15 min: %s", probability)
+  sprintf("los próximos 15 min: %s", probability)
 )
 
 cat(paste(output, collapse="\n"))
 
 k<-1
-sprintf("Calculo usando R: %s", ppois(k,lambda = lambda_value,lower.tail = FALSE))
+sprintf("Cálculo usando R: %s", ppois(k,lambda = lambda_value,lower.tail = FALSE))
 ```
 
 **3.- Un río tiene un promedio de 3 bacterias E. coli por 5 ml de agua. ¿Cuál es la probabilidad de que se
@@ -151,7 +151,7 @@ encuentren exactamente 20 bacterias en una muestra de 50 ml?**
 
 ```{r}
 lambda_value = 3 # por cada 5 ml
-lambda_value = lambda_value * 10 # para mantener la proporcion a 50ml
+lambda_value = lambda_value * 10 # para mantener la proporción a 50ml
 e = exp(1)
 k = 20
 
@@ -203,12 +203,12 @@ costo <- 20
 Z <- (costo - media)/ desviacion_estandar
 print(Z)
 
-# Leyendo tabla de libro:Introduccion a la probabilidad y estadistica
+# Leyendo tabla de libro:Introducción a la probabilidad y estadística
 # Pagina 688, se obtiene que la probabilidad de Z = -1.25 es: 0.1056
 probability <- 0.1056
 
 output <- c(
-  sprintf("La probabilidad de una accion tenga un costo menor que"),
+  sprintf("La probabilidad de una acción tenga un costo menor que"),
   sprintf(" $20 usando Z: %s es %s",Z,  probability)
 )
 
@@ -226,14 +226,14 @@ costo <- 30
 
 Z <- (costo - media)/ desviacion_estandar
 print(Z)
-# Leyendo tabla de libro:Introduccion a la probabilidad y estadistica
+# Leyendo tabla de libro:Introducción a la probabilidad y estadística
 # Pagina 689, se obtiene que la probabilidad de Z = 1.25 es: 0.8944
 # Pero esto es la probabilidad de que sea menor a 30, queremos la diferencia
 
 probability <- 1 - 0.8944 # Valor de tabla
 
 output <- c(
-  sprintf("La probabilidad de una accion tenga un costo menor"),
+  sprintf("La probabilidad de una acción tenga un costo menor"),
   sprintf(" que $20 usando Z: %s es %s",Z,  probability)
 )
 
@@ -251,7 +251,7 @@ probability_menor_20 <- 0.1056
 probability_mayor_30 <- 0.1056
 
 probability_entre_20_Y_30 <- 1 - probability_menor_20 - probability_menor_20
-sprintf("Probabilidad comprendida entre 20 y 30 %s", probability_entre_20_Y_30)
+sprintf("Probabilidad comprendida entre 20 y 30: %s", probability_entre_20_Y_30)
 ```
 ## Distribución de Probabilidad Hipergeométrica
 
@@ -260,7 +260,7 @@ sprintf("Probabilidad comprendida entre 20 y 30 %s", probability_entre_20_Y_30)
 
 a) ¿Cuál es la probabilidad de que ningún tornillo salga defectuoso?
 ```{r}
-N <- 100 #Poblacion total
+N <- 100 #Población total
 n <- 60 # Tamaño de la muestra
 K <- 1 # 
 k <- 0
@@ -273,7 +273,7 @@ tercer_termino <- factorial(N)/(factorial(n) * factorial(N-n))
 probability <- (primer_termino * segundo_termino) / tercer_termino
 sprintf("Probabilidad de que ningun tornillo salga defectuoso: %s",probability)
 
-#Comprobacion en R
+#Comprobación en R
 probability <- dhyper(k,K,N-K,n)
 sprintf("Probabilidad calculada con R %s",probability)
 
@@ -281,7 +281,7 @@ sprintf("Probabilidad calculada con R %s",probability)
 
 b) ¿Cuál es la probabilidad de que exactamente 3 tornillos salgan defectuosos?
 ```{r}
-N <- 100 #Poblacion total
+N <- 100 #Población total
 n <- 60 # Tamaño de la muestra
 K <- 1 # 
 k <- 3
@@ -294,7 +294,7 @@ tercer_termino <- factorial(N)/(factorial(n) * factorial(N-n))
 probability <- (primer_termino * segundo_termino) / tercer_termino
 sprintf("Probabilidad de salgan 3 tornillos defectuosos: %s",probability)
 
-#Comprobacion en R
+#Comprobación en R
 probability <- dhyper(k,K,N-K,n)
 sprintf("Probabilidad calculada con R %s",probability)
 ```
@@ -303,10 +303,10 @@ c) ¿Cuál es la probabilidad de que más de 3 tornillos salgan defectuosos?
 ```{r}
 k <- 4
 
-# Sabemos que si con 3 la probabilidad es 0, con mas de 3 sigue siendo 0.
+# Sabemos que si con 3 la probabilidad es 0, con más de 3 sigue siendo 0.
 print("Sabemos que si con 3 la probabilidad es 0, con mas de 3 sigue siendo 0.")
 
-#Comprobacion en R
+#Comprobación en R
 probability <- dhyper(k,K,N-K,n)
 sprintf("Probabilidad calculada con R %s",probability)
 
@@ -315,7 +315,7 @@ sprintf("Probabilidad calculada con R %s",probability)
 
 **7.- Las especificaciones para la fabricación de cierta aleación exigen 23.2% de cobre. Una muestra de 10 análisis del producto ha revelado un contenido medio de 23.5% de bore con una desviación típica de .24%. ¿Podemos concluir que el producto cumple las especificaciones al nivel de significación:**
 
-Hipotesis
+Hipótesis
 $H0:\mu = 23.2$ (cumple)
 $Ha:\mu \neq 23.2$ (no cumple)
 
@@ -337,7 +337,7 @@ sprintf("t: %s", t)
 
 grados_de_libertad <- n - 1
 t_critico <- qt(1 - alpha / 2, df= grados_de_libertad)
-sprintf("t critico: %s", t_critico)
+sprintf("t crítico: %s", t_critico)
 
 ```
 t > t_critico, por lo que se rechaza H0 y por lo tanto de acepta Ha
@@ -359,3 +359,12 @@ t_critico <- qt(1-alpha/2,df=grados_de_libertad)
 sprintf("t critico: %s",t_critico)
 ```
 t > t_critico, por lo que se rechaza H0 y por lo tanto se acepta Ha
+
+
+\newpage
+
+# Referencias
+
+* Mendenhall, Beaver, Beaver. (2010). Introducción a la probabilidad y estadística
+      13 Edicion, Cengage Learning.
+      https://learn-us-east-1-prod-fleet02-xythos.content.blackboardcdn.com/5fdc0d8108394/4575538

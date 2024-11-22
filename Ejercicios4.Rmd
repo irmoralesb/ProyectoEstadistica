@@ -1,10 +1,7 @@
 ---
-title: "Ejercicio 4"
-author: "Ignacio Raul Morales Berber"
-date: "`r format(Sys.Date(), '%d de %B de %Y')`"
 output: pdf_document
 geometry: a4paper
-fontsize: 12pt
+fontsize: 9pt
 header-includes:
   - \usepackage{titling}
   - \usepackage{graphicx}
@@ -20,9 +17,7 @@ header-includes:
 {\Large Materia: Estadistica Descriptiva e Inferencia}\\
 {\Large Profesora: Shurabe Guido Aguilar}\\[1cm]
 
-\textbf{Alumnos:} \\
-Alexis Xiomara Villegas Cortes \\ 
-Denisse Aurora Alvarado Reyna \\ 
+\textbf{Alumno:} \\
 Ignacio Raul Morales Berber \\[3cm]
 
 \vfill
@@ -32,9 +27,6 @@ Ignacio Raul Morales Berber \\[3cm]
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-
-
 
 ## Distribucion de Probabilidad Binomial
 
@@ -57,18 +49,15 @@ k = 0
 x = 0
 probability = 3 / 100
 
-
-
 factorial_n = factorial(n)
 factorial_k = factorial(k)
 factorial_n_menos_k = factorial(n-k)
 probability_exp_k = probability^k
 probability_n_minus_k = (1-probability)^(n-k)
-resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
+resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) *
+  (probability_exp_k) * probability_n_minus_k
 
 sprintf("Probabilidad por metodo manual %s",resultado)
-
-
 sprintf("Probabilidad usando R: %s",dbinom(x,n,probability))
 ```
 
@@ -85,21 +74,22 @@ factorial_k = factorial(k)
 factorial_n_menos_k = factorial(n-k)
 probability_exp_k = probability^k
 probability_n_minus_k = (1-probability)^(n-k)
-resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) * (probability_exp_k) * probability_n_minus_k
+resultado <- (factorial_n / (factorial_k * factorial_n_menos_k)) *
+  (probability_exp_k) * probability_n_minus_k
 
 sprintf("Probabilidad por metodo manual %s",resultado)
 
-
 sprintf("Probabilidad usando R: %s",dbinom(x,n,probability))
 ```
-c) El número medio de pacientes que espera laboratorio que sufran efectos secundarios si elige 100 pacientes al azar.
+
+c) El número medio de pacientes que espera laboratorio que    sufran efectos secundarios si elige 100 pacientes al azar.
 ```{r}
 n = 100
 probability = 3 / 100
 
 media = n * probability
 
-sprintf("Numero de pacientes esperados que tengan efectos secundarios: %s", media)
+sprintf("Numero de pacientes esperados con efectos secundarios: %s", media)
 
 ```
 
@@ -114,9 +104,10 @@ sprintf("Con desviacion estandar: %s", desviacion)
 
 ## Distribución de Probabilidad de Poisson
 
-**2.- La contestadora automática de UVM recibe alrededor de seis llamadas telefónicas entre las 8 de la
-mañana y las 10 de la mañana. ¿Cuál es la probabilidad de que Leah reciba más de una llamada en los
-próximos 15 minutos? Sugerencia: Calcular la media lambda en términos de 8 intervalos de 15 minutos
+**2.- La contestadora automática de UVM recibe alrededor de seis llamadas
+telefónicas entre las 8 de la mañana y las 10 de la mañana. ¿Cuál es la 
+probabilidad de que Leah reciba más de una llamada en los próximos 15 minutos?
+Sugerencia: Calcular la media lambda en términos de 8 intervalos de 15 minutos
 la hora.**
 
 Datos:
@@ -143,7 +134,12 @@ probability_k0 = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
 
 probability <- 1 - (probability_k0 + probability_k1)
 
-sprintf("Probablidad de que se reciba mas de una llamada en los proximos 15 min: %s", probability)
+output <- c(
+  sprintf("Probablidad de que se reciba mas de una llamada en"),
+  sprintf("los proximos 15 min: %s", probability)
+)
+
+cat(paste(output, collapse="\n"))
 
 k<-1
 sprintf("Calculo usando R: %s", ppois(k,lambda = lambda_value,lower.tail = FALSE))
@@ -166,7 +162,11 @@ factorial_k = factorial(k)
 
 probability = (lambda_value_exp_k * e_exp_menos_lambda)/factorial_k
 
-sprintf("probabilidad de que se encuentren exactamente 20 bacterias en una muestra de 50 ml: %s",probability)
+output <- c(
+  sprintf("Probabilidad de que se encuentren exactamente 20 bacterias"),
+  sprintf(" en una muestra de 50 ml: %s",probability)
+)
+cat(paste(output, collapse = "\n"))
 
 sprintf("Probabilidad usando R: %s", dpois(k,lambda_value))
 ```
@@ -206,7 +206,13 @@ print(Z)
 # Leyendo tabla de libro:Introduccion a la probabilidad y estadistica
 # Pagina 688, se obtiene que la probabilidad de Z = -1.25 es: 0.1056
 probability <- 0.1056
-sprintf("La probabilidad de una accion tenga un costo menor que $20 usando Z: %s es %s",Z,  probability)
+
+output <- c(
+  sprintf("La probabilidad de una accion tenga un costo menor que"),
+  sprintf(" $20 usando Z: %s es %s",Z,  probability)
+)
+
+cat(paste(output, collapse="\n"))
 
 probability <- pnorm(costo,mean= media,sd=desviacion_estandar)
 sprintf("Probabilidad calculada con R: %s", probability)
@@ -225,7 +231,13 @@ print(Z)
 # Pero esto es la probabilidad de que sea menor a 30, queremos la diferencia
 
 probability <- 1 - 0.8944 # Valor de tabla
-sprintf("La probabilidad de una accion tenga un costo menor que $20 usando Z: %s es %s",Z,  probability)
+
+output <- c(
+  sprintf("La probabilidad de una accion tenga un costo menor"),
+  sprintf(" que $20 usando Z: %s es %s",Z,  probability)
+)
+
+cat(paste(output, collapse = "\n"))
 
 probability <- pnorm(costo,mean=media,sd=desviacion_estandar,lower.tail = FALSE)
 sprintf("Probabilidad calculada con R: %s", probability)
